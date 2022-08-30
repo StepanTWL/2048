@@ -57,7 +57,7 @@ COLORS = {
     64: (255,235,0),
     128: (235,255,255),
     256: (235,127,255),
-    512: (235,0,255),
+    512: (235,0,254),
 }
 
 WHITE = (255, 255, 255)
@@ -76,6 +76,7 @@ USERNAME = None
 
 pretty_print(mas)
 print(get_empty_list(mas))
+
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGTH))
@@ -96,7 +97,7 @@ def draw_intro():
             elif event.type == pygame.KEYDOWN:
                 if event.unicode.isalpha():
                     if name == 'Введите имя':
-                        name = event.unicode
+                        name = event.unicode 
                     else:
                         name+=event.unicode
                 elif event.key == pygame.K_BACKSPACE:
