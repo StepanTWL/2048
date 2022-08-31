@@ -1,9 +1,6 @@
+import copy
 from typing import List, Tuple
 import random
-
-def pretty_print(arr: List[List[int]]):
-    for row in arr:
-        print(*row)
 
 def get_number_from_index(i: int,j: int) -> int:
     return i*4+j+1
@@ -34,7 +31,8 @@ def is_zero_in_mas(arr: List[List[int]]) -> bool:
             return True
     return False
 
-def move_left(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
+def move_left(arr: List[List[int]]) -> Tuple[List[List[int]], int, bool]:
+    origin = copy.deepcopy(arr)
     delta=0
     for row in arr:
         while 0 in row:
@@ -48,10 +46,11 @@ def move_left(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
                 delta+=arr[i][j]
                 arr[i].pop(j+1)
                 arr[i].append(0)
-    return arr,delta
+    return arr, delta, not origin==arr
 
 
-def move_right(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
+def move_right(arr: List[List[int]]) -> Tuple[List[List[int]], int, bool]:
+    origin = copy.deepcopy(arr)
     delta=0
     for row in arr:
         while 0 in row:
@@ -65,9 +64,10 @@ def move_right(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
                 delta+=arr[i][j]
                 arr[i].pop(j-1)
                 arr[i].insert(0,0)
-    return arr,delta
+    return arr, delta, not origin==arr
 
-def move_up(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
+def move_up(arr: List[List[int]]) -> Tuple[List[List[int]], int, bool]:
+    origin = copy.deepcopy(arr)
     delta=0
     for j in range(4):
         column = []
@@ -84,9 +84,10 @@ def move_up(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
                 column.append(0)
         for i in range(4):
             arr[i][j] = column[i]
-    return arr,delta
+    return arr, delta, not origin==arr
 
-def move_down(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
+def move_down(arr: List[List[int]]) -> Tuple[List[List[int]], int, bool]:
+    origin = copy.deepcopy(arr)
     delta=0
     for j in range(4):
         column = []
@@ -103,11 +104,15 @@ def move_down(arr: List[List[int]]) -> Tuple[List[List[int]], int]:
                 column.insert(0,0)
         for i in range(4):
             arr[i][j] = column[i]
-    return arr,delta
+    return arr, delta, not origin==arr
 
 def can_move(arr: List[List[int]]) -> bool:
     for i in range(3):
         for j in range(3):
             if arr[i][j]==arr[i][j+1] or arr[i][j]==arr[i+1][j]:
+                return True
+    for i in range(1,3):
+        for j in range(1,3):
+            if arr[i][j]==arr[i-1][j] or arr[i][j]==arr[i][j-1]:
                 return True
     return False
